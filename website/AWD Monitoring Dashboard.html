@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AWD Monitoring — Pemantauan Tinggi Muka Air & Mitigasi Emisi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<div class="app">
+
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="sidebar">
+    <div class="sb-brand">
+      <div class="sb-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2.6s6.5 6 6.5 10.6a6.5 6.5 0 0 1-13 0C5.5 8.6 12 2.6 12 2.6Z"/><path d="M8.5 14c.9.7 1.8.7 2.7 0 .9-.7 1.8-.7 2.7 0"/>
+        </svg>
+      </div>
+      <div class="wm">
+        <span class="wm-logo"><span class="wm-aw">AWD</span><span class="wm-mon">monitor</span></span>
+        <span class="wm-tag">Water Level · IoT</span>
+      </div>
+    </div>
+
+    <nav class="sb-nav">
+      <div class="sb-section">Pemantauan</div>
+      <button class="nav-item active" id="nav-dashboard" data-nav="dashboard"><span id="ic-dash"></span> Dashboard</button>
+      <button class="nav-item" id="nav-history" data-nav="history"><span id="ic-hist"></span> Riwayat Data</button>
+      <button class="nav-item" id="nav-notifications" data-nav="notifications"><span id="ic-bell"></span> Notifikasi <span class="badge" id="irr-badge">0</span></button>
+      <div class="sb-section">Sistem</div>
+      <button class="nav-item" id="nav-report" data-nav="report"><span id="ic-rep"></span> Laporan PDF</button>
+      <button class="nav-item" id="nav-settings" data-nav="settings"><span id="ic-set"></span> Pengaturan</button>
+    </nav>
+
+    <div class="sb-foot">
+      <div class="sb-device">
+        <div class="row" style="justify-content:space-between;">
+          <span class="id" id="dev-id">AWD-NODE-01</span>
+          <span id="dev-status" style="font-size:11.5px;color:#9DBE96;display:inline-flex;align-items:center;gap:6px;"></span>
+        </div>
+        <div class="row" id="r-batt"><span id="ic-batt2"></span> Baterai <b style="color:#fff;margin-left:auto;" id="sb-batt">—</b></div>
+        <div class="row" id="r-upd"><span id="ic-clock"></span> Sinkron <b style="color:#fff;margin-left:auto;font-weight:500;" id="sb-update">—</b></div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <div class="main">
+    <header class="topbar">
+      <div class="tt">
+        <h1 id="tt-title">Dashboard Pemantauan</h1>
+        <p id="tt-sub">Tinggi muka air real-time & estimasi mitigasi emisi</p>
+      </div>
+      <div class="spacer"></div>
+      <button class="btn primary" id="btn-pdf"><span id="ic-dl"></span> Unduh Laporan PDF</button>
+      <div class="ipb-lockup">
+        <div class="div"></div>
+        <img src="assets/ipb-logo.png" alt="IPB University — Bogor Indonesia">
+      </div>
+    </header>
+
+    <main class="page" id="page-dashboard"></main>
+    <main class="page" id="page-history" hidden></main>
+    <main class="page" id="page-notifications" hidden></main>
+    <main class="page" id="page-settings" hidden></main>
+    <main class="page" id="page-report" hidden></main>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script src="assets/icons.js"></script>
+<script src="assets/data.js"></script>
+<script src="assets/charts.js"></script>
+<script src="assets/app.js"></script>
+<script>
+  // inject sidebar icons
+  document.getElementById('ic-dash').innerHTML = IC.dashboard;
+  document.getElementById('ic-hist').innerHTML = IC.history;
+  document.getElementById('ic-set').innerHTML = IC.settings;
+  document.getElementById('ic-rep').innerHTML = IC.download;
+  document.getElementById('ic-bell').innerHTML = IC.bell;
+  document.getElementById('ic-batt2').innerHTML = IC.battery;
+  document.getElementById('ic-clock').innerHTML = IC.refresh;
+  document.getElementById('ic-dl').innerHTML = IC.download;
+</script>
+</body>
+</html>

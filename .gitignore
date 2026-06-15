@@ -1,0 +1,134 @@
+# ============================================================
+# .gitignore — AWD Monitoring System
+# Berlaku untuk seluruh repository (firmware + website + docs)
+# ============================================================
+
+# ============================================================
+# FIRMWARE (PlatformIO / ESP32)
+# ============================================================
+
+# Hasil build PlatformIO (bisa sangat besar, 100MB+)
+.pio/
+
+# Pengaturan VS Code yang dibuat otomatis PlatformIO
+# (berisi path lokal yang berbeda di tiap komputer)
+.vscode/.browse.c_cpp.db*
+.vscode/c_cpp_properties.json
+.vscode/launch.json
+.vscode/ipch
+
+# ============================================================
+# BACKEND (Python / Flask)
+# ============================================================
+
+# Cache Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+
+# Virtual environment Python
+venv/
+env/
+.venv/
+.env/
+
+# File environment (PENTING: berisi API key, password, token Telegram!)
+# JANGAN PERNAH upload file ini ke GitHub
+.env
+*.env
+config.local.py
+
+# Database lokal (berisi data pengujian, tidak perlu di-upload)
+*.db
+*.sqlite
+*.sqlite3
+
+# Log Flask
+*.log
+flask_session/
+
+# Distribusi Python
+dist/
+build/
+*.egg-info/
+
+# ============================================================
+# FRONTEND (React / Node.js)
+# ============================================================
+
+# Library frontend (bisa 500MB+, sudah ada di package.json)
+node_modules/
+
+# Hasil build React (dibuat ulang dengan npm run build)
+website/frontend/build/
+website/frontend/dist/
+
+# Cache npm/yarn
+.npm
+.yarn-integrity
+yarn-error.log
+npm-debug.log*
+
+# ============================================================
+# SISTEM OPERASI
+# ============================================================
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Linux
+*~
+.fuse_hidden*
+.Trash-*
+
+# ============================================================
+# EDITOR & IDE
+# ============================================================
+
+# VS Code (simpan hanya settings yang relevan untuk tim)
+.vscode/*
+!.vscode/extensions.json   # boleh disimpan: rekomendasi ekstensi tim
+
+# JetBrains
+.idea/
+*.iml
+
+# Vim
+*.swp
+*.swo
+
+# ============================================================
+# FILE SENSITIF PROYEK INI
+# ============================================================
+
+# config.h dengan password WiFi sudah ada di firmware/include/config.h
+# Kalau mau privat, uncomment baris ini:
+# firmware/include/config.h
+
+# Ganti dengan template tanpa password asli untuk publik:
+# (lihat firmware/include/config.example.h)
+
+# ============================================================
+# FILE SEMENTARA LAINNYA
+# ============================================================
+
+# File zip hasil ekspor
+*.zip
+*.tar.gz
+
+# File PDF yang di-generate (bukan yang ada di docs/)
+website/backend/reports/generated/
+
+# Thumbnail
+.thumbnail

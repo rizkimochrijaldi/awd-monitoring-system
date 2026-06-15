@@ -1,0 +1,38 @@
+/* Lucide-style stroke icons (1.75px), single source of truth. */
+window.IC = (function () {
+  const s = (p) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
+  return {
+    gauge:    s('<path d="M12 14l4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/><circle cx="12" cy="14" r="1.2" fill="currentColor" stroke="none"/>'),
+    dashboard:s('<rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/>'),
+    history:  s('<path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><path d="M12 8v4l3 2"/>'),
+    settings: s('<path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.6 1.6 0 0 0-1-1.5 1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.6 1.6 0 0 0 1.5-1 1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1Z"/>'),
+    droplet:  s('<path d="M12 2.7s6 5.4 6 10a6 6 0 1 1-12 0c0-4.6 6-10 6-10Z"/>'),
+    waves:    s('<path d="M2 6c1.5 0 1.5 1.5 3 1.5S6.5 6 8 6s1.5 1.5 3 1.5S12.5 6 14 6s1.5 1.5 3 1.5S18.5 6 20 6"/><path d="M2 12c1.5 0 1.5 1.5 3 1.5S6.5 12 8 12s1.5 1.5 3 1.5S12.5 12 14 12s1.5 1.5 3 1.5S18.5 12 20 12"/><path d="M2 18c1.5 0 1.5 1.5 3 1.5S6.5 18 8 18s1.5 1.5 3 1.5S12.5 18 14 18s1.5 1.5 3 1.5S18.5 18 20 18"/>'),
+    sprout:   s('<path d="M7 20h10"/><path d="M12 20V9"/><path d="M12 9C12 6 9.5 4 6.5 4 6.5 7 9 9 12 9Z"/><path d="M12 11c0-2.5 2.2-4.5 5-4.5 0 2.7-2.2 4.5-5 4.5Z"/>'),
+    leaf:     s('<path d="M11 20A7 7 0 0 1 4 13c0-5 4-9 16-9 0 12-4 16-9 16a7 7 0 0 1-7-7Z"/><path d="M5 21c4-5 7-8 14-9"/>'),
+    cloud:    s('<path d="M6.5 18a4.5 4.5 0 0 1-.5-9 6 6 0 0 1 11.6 1.5A3.75 3.75 0 0 1 17 18Z"/>'),
+    battery:  s('<rect x="2" y="7" width="17" height="10" rx="2.2"/><path d="M22 11v2"/>'),
+    power:    s('<path d="M12 3v9"/><path d="M6.4 6.4a8 8 0 1 0 11.2 0"/>'),
+    calendar: s('<rect x="3" y="4.5" width="18" height="16" rx="2.2"/><path d="M3 9.5h18M8 3v3M16 3v3"/>'),
+    download: s('<path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M5 21h14"/>'),
+    chevDown: s('<path d="m6 9 6 6 6-6"/>'),
+    chevR:    s('<path d="m9 6 6 6-6 6"/>'),
+    bell:     s('<path d="M18 9a6 6 0 1 0-12 0c0 7-2.5 8-2.5 8h17S18 16 18 9Z"/><path d="M10.3 21a2 2 0 0 0 3.4 0"/>'),
+    send:     s('<path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4Z"/>'),
+    check:    s('<path d="M20 6 9 17l-5-5"/>'),
+    checkCircle: s('<circle cx="12" cy="12" r="9"/><path d="m8.5 12 2.5 2.5 5-5"/>'),
+    alert:    s('<path d="M10.3 3.8 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.8a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4M12 17h.01"/>'),
+    info:     s('<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>'),
+    ruler:    s('<path d="M3 8h18v8H3z"/><path d="M7 8v3M11 8v4M15 8v3M19 8v4"/>'),
+    sigma:    s('<path d="M18 7V5H6l6 7-6 7h12v-2"/>'),
+    thermometer: s('<path d="M14 14.8V5a2 2 0 1 0-4 0v9.8a4 4 0 1 0 4 0Z"/>'),
+    flask:    s('<path d="M9 3h6M10 3v6.5L4.8 18A2 2 0 0 0 6.5 21h11a2 2 0 0 0 1.7-3L14 9.5V3"/><path d="M7.5 15h9"/>'),
+    target:   s('<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.3" fill="currentColor" stroke="none"/>'),
+    refresh:  s('<path d="M21 12a9 9 0 1 1-2.6-6.4L21 8"/><path d="M21 3v5h-5"/>'),
+    filter:   s('<path d="M3 5h18l-7 8v5l-4 2v-7L3 5Z"/>'),
+    table:    s('<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M3 15h18M9 4v16"/>'),
+    seedling: s('<path d="M12 22V12"/><path d="M12 12C8 12 5 9 5 5c4 0 7 3 7 7Z"/><path d="M12 14c0-3.3 2.7-6 6-6 0 3.3-2.7 6-6 6Z"/>'),
+    arrowUp:  s('<path d="M12 19V5M5 12l7-7 7 7"/>'),
+    arrowDown:s('<path d="M12 5v14M19 12l-7 7-7-7"/>'),
+  };
+})();
