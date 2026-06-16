@@ -168,7 +168,9 @@
 
       </div>`;
 
-    // charts
+    // charts (destroy dulu bila ada — renderDashboard bisa dipanggil ulang oleh live sync)
+    if (charts.water) charts.water.destroy();
+    if (charts.cumul) charts.cumul.destroy();
     charts.water = CH.waterLevel($('#c-water'), A.recentReadings(7));
     charts.cumul = CH.cumulative($('#c-cumul'), A.days);
 
@@ -740,6 +742,25 @@
     $('#btn-pdf').addEventListener('click', () => go('report'));
     const start = (location.hash || '#dashboard').slice(1);
     go(PAGES.includes(start) ? start : 'dashboard');
+    startLiveSync();
+  }
+
+  /* ---------- Live sync (mode uji coba: data dummy + pengukuran asli) ----------
+     Ambil reading nyata dari backend lalu gabungkan dengan data dummy.
+     Dijalankan saat halaman disajikan oleh backend; bila dibuka via file://
+     (offline), refresh() gagal diam-diam dan dashboard tetap memakai data dummy. */
+  function applyLiveData() {
+    // Cache halaman selain dashboard dikosongkan agar memuat data terbaru saat dibuka.
+    PAGES.forEach(p => { if (p !== 'dashboard') delete rendered[p]; });
+    fillStatic();
+    updateBadge();
+    if (!$('#page-dashboard').hidden) renderDashboard();   // segarkan dashboard di tempat
+  }
+  function startLiveSync() {
+    if (!(A.refresh)) return;
+    const sync = () => A.refresh().then(changed => { if (changed) applyLiveData(); });
+    sync();                       // tarik data segera saat muat
+    setInterval(sync, 30000);     // lalu perbarui tiap 30 detik
   }
 
   function toInput(d) { return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }

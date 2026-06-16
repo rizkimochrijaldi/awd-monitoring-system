@@ -168,23 +168,15 @@ window.AWD = (function () {
     });
   }
 
-  // ── Build the full dataset ───────────────────────────────────
-  const { readings, DAP_NOW } = simulate(SETTINGS);
-  const days = aggregate(readings, SETTINGS);
-  const latest = readings[readings.length - 1];
-  const today = days[days.length - 1];
-
   // battery % mapping (3.3V→0, 4.2V→100)
-  function battPct(v) { return Math.round(Math.max(0, Math.min(100, (v - 3.3) / 0.9 * 100))); }
+  function battPct(v) { return (v == null) ? 0 : Math.round(Math.max(0, Math.min(100, (v - 3.3) / 0.9 * 100))); }
 
-  // recent reading window (for dashboard live chart): last N days
+  // recent reading window (for dashboard live chart): last N days.
+  // Reads from the live AWD object so it reflects merged backend data.
   function recentReadings(nDays) {
-    const cutoff = DAP_NOW - nDays + 1;
-    return readings.filter(r => r.dap >= cutoff);
+    const cutoff = AWD.DAP_NOW - nDays + 1;
+    return AWD.readings.filter(r => r.dap >= cutoff);
   }
-
-  // count days needing irrigation, alerts
-  const irrigationDays = days.filter(d => d.minLevel <= SETTINGS.threshold_irrigation_cm).length;
 
   // ── Build alert log (PRD §6 + ERD `alerts` table) ────────────
   function buildAlerts(readings, days, s) {
@@ -221,10 +213,64 @@ window.AWD = (function () {
     alerts.sort((a, b) => b.ts - a.ts);
     return alerts;
   }
-  const alerts = buildAlerts(readings, days, SETTINGS);
-  // mark the two most recent alerts as unread (newest-first after sort)
-  alerts.forEach((a, i) => { a.unread = i < 2; });
-  const unreadCount = alerts.filter(a => a.unread).length;
+  // ── Build dataset: mock season (+ optional live backend readings) ──
+  // `extra` = array of readings dari backend (GET /api/readings). Bila ada,
+  // di-append ke season dummy lalu seluruh pipeline (aggregate/buildAlerts)
+  // dijalankan ulang — sehingga dashboard = data dummy + data pengukuran asli.
+  function buildDataset(extra) {
+    const sim = simulate(SETTINGS);
+    let readings = sim.readings;
+    const lastMockBatt = readings.length ? readings[readings.length - 1].batt : 3.9;
+
+    if (extra && extra.length) {
+      const mapped = extra.map(r => ({
+        dap: r.dap,
+        k: 0,
+        ts: (r.ts instanceof Date) ? r.ts : new Date(r.ts),
+        level: r.level,
+        distRaw: r.distRaw,
+        hCorr: r.hCorr,
+        aerobic: r.aerobic,
+        pump: r.pump,
+        // mode USB → batt null; pinjam nilai terakhir mock agar kartu baterai wajar
+        batt: (r.batt == null ? lastMockBatt : r.batt),
+        live: true,
+      }));
+      readings = readings.concat(mapped).sort((a, b) => a.ts - b.ts);
+    }
+
+    const days = aggregate(readings, SETTINGS);
+    const latest = readings[readings.length - 1];
+    const today = days[days.length - 1];
+    const DAP_NOW = latest.dap;
+    const irrigationDays = days.filter(d => d.minLevel <= SETTINGS.threshold_irrigation_cm).length;
+
+    const alerts = buildAlerts(readings, days, SETTINGS);
+    alerts.forEach((a, i) => { a.unread = i < 2; });   // dua terbaru = belum dibaca
+    const unreadCount = alerts.filter(a => a.unread).length;
+
+    // NOW untuk tampilan: ikut waktu pembacaan terakhir bila ada data live
+    const NOW_OUT = (extra && extra.length) ? new Date(latest.ts) : NOW;
+
+    return { readings, days, latest, today, DAP_NOW, irrigationDays,
+             alerts, unreadCount, NOW: NOW_OUT };
+  }
+
+  // Ambil reading asli dari backend lalu gabungkan dengan season dummy.
+  // Gagal (mis. dibuka via file://) → tetap memakai data dummy (mode uji coba).
+  async function refresh() {
+    try {
+      const res = await fetch('/api/readings');
+      if (!res.ok) return false;
+      const json = await res.json();
+      const extra = json.readings || [];
+      if (!extra.length) return false;
+      Object.assign(AWD, buildDataset(extra));
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
 
   // ── Indonesian formatting helpers ────────────────────────────
   const BULAN = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
@@ -236,15 +282,20 @@ window.AWD = (function () {
     return Number(n).toLocaleString('id-ID', { minimumFractionDigits: dec, maximumFractionDigits: dec });
   }
 
-  return {
-    SETTINGS, NOW, DAP_NOW,
-    readings, days, latest, today, alerts, unreadCount,
+  // ── Assemble the public AWD object (static parts + initial dataset) ──
+  // `AWD` dideklarasikan dulu agar recentReadings()/refresh() bisa merujuknya.
+  const AWD = {
+    SETTINGS,
     recentReadings, verifyTable, phaseOf,
     deltaEF: deltaEF(SETTINGS),
     ch4FullDay: ch4FullDay(SETTINGS),
-    battPct, irrigationDays,
+    battPct,
     fmtDate, fmtDateShort, fmtTime, fmtNum, BULAN,
     // recompute helpers (used by Settings live preview)
     _ch4FullDay: ch4FullDay, _deltaEF: deltaEF, _ch4ReducedG: ch4ReducedG, _co2eqG: co2eqG,
+    refresh,
   };
+  // Isi dataset awal (data dummy). refresh() menimpa dengan dummy + data live.
+  Object.assign(AWD, buildDataset(null));
+  return AWD;
 })();

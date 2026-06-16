@@ -209,7 +209,7 @@ Pola histeresis ini mencegah pompa berkedip ON/OFF saat level air berada di anta
 
 ## 6. Architecture
 
-\`\`\`mermaid
+```mermaid
 sequenceDiagram
     participant Node as Node Sensor (ESP32 + JSN-SR04M)
     participant HP as Mobile Hotspot (WiFi)
@@ -244,11 +244,11 @@ sequenceDiagram
     API->>API: Render PDF (grafik, tabel, narasi)
     API-->>UI: Kirim file PDF
     UI-->>User: Unduh laporan
-\`\`\`
+```
 
 ## 7. Database Schema
 
-\`\`\`mermaid
+```mermaid
 erDiagram
     devices {
         int id PK
@@ -315,7 +315,7 @@ erDiagram
     devices ||--o{ readings : "menghasilkan"
     devices ||--o{ alerts : "memicu"
     readings ||--o{ emission_daily : "diagregasi menjadi"
-\`\`\`
+```
 
 | Tabel | Deskripsi |
 |-------|-----------|
