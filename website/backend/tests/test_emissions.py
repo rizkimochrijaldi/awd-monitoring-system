@@ -19,7 +19,7 @@ import emissions as em
 # Settings default (PRD §4.2) untuk petak 100 m²
 S = {
     "plot_area_m2": 100,
-    "pipe_height_above_ground_cm": 20,
+    "pipe_height_above_ground_cm": 30,
     "threshold_irrigation_cm": -15,
     "threshold_flooding_cm": 5,
     "ef_baseline": 1.30,
@@ -81,9 +81,9 @@ def test_full_precision_accumulation():
 
 def test_water_level_conversion():
     """PRD §4.1: H_corrected = 1.028 * distance_raw; level = pipe_h - H_corrected."""
-    # distance_raw 32.5, pipe_h 20 -> H = 33.41 ; level = -13.41
+    # distance_raw 32.5, pipe_h 30 -> H = 33.41 ; level = -3.41
     assert em.round_half_up(em.h_corrected(32.5), 2) == 33.41
-    assert em.round_half_up(em.water_level(32.5, 20), 2) == -13.41
+    assert em.round_half_up(em.water_level(32.5, 30), 2) == -3.41
 
 
 def test_phase_boundaries():

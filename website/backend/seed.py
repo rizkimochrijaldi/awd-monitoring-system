@@ -23,7 +23,7 @@ DEFAULT_SETTINGS = {
     "device_name": "Petak Uji A — Sawah Cikabayan",
     "planting_date": "2026-04-29",
     "plot_area_m2": 100,
-    "pipe_height_above_ground_cm": 20,
+    "pipe_height_above_ground_cm": 30,   # jarak sensor->tanah; dinaikkan ke 30 cm (di luar blind zone JSN-SR04M)
     "threshold_irrigation_cm": -15,
     "threshold_flooding_cm": 5,
     "ef_baseline": 1.30,

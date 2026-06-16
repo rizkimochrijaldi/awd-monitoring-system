@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS devices (
     id                          INTEGER PRIMARY KEY AUTOINCREMENT,
     device_id                   TEXT    NOT NULL UNIQUE,
     name                        TEXT,
-    pipe_height_above_ground_cm REAL    NOT NULL DEFAULT 20.0,
+    pipe_height_above_ground_cm REAL    NOT NULL DEFAULT 30.0,
     registered_at               TEXT    NOT NULL DEFAULT (datetime('now'))
 );
 
